@@ -1,0 +1,35 @@
+{
+  "name": "javascript-component-architecture",
+  "version": "1.0.0",
+  "description": "Component-Based JavaScript Architecture",
+  "main": "index.js",
+  "scripts": {
+    "dev": "webpack-dev-server --config webpack.dev.config.js --open",
+    "pro": "NODE_ENV=production & webpack-dev-server --config webpack.dev.config.js",
+    "start": "npm run dev",
+    "build": "npm run pro"
+  },
+  "author": "Yasino",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^12.7.5",
+    "@types/webpack": "^4.39.1",
+    "@types/webpack-dev-server": "^3.1.7",
+    "app-root-path": "^2.2.1",
+    "css-loader": "^3.2.0",
+    "eslint": "^6.4.0",
+    "file-loader": "^4.2.0",
+    "sass-loader": "^8.0.0",
+    "style-loader": "^1.0.0",
+    "ts-loader": "^6.1.0",
+    "ts-node": "^8.3.0",
+    "tslint": "^5.20.0",
+    "typescript": "^3.6.3",
+    "webpack": "^4.40.2",
+    "webpack-cli": "^3.3.8",
+    "webpack-dev-server": "^3.8.0"
+  },
+  "dependencies": {
+    "lodash": "^4.17.15"
+  }
+}
