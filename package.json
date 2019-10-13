@@ -35,7 +35,8 @@
     "webpack-cli": "^3.3.8",
     "webpack-dev-server": "^3.8.0",
     "webpack-extraneous-file-cleanup-plugin": "^2.0.0",
-    "webpack-merge": "^4.2.2"
+    "webpack-merge": "^4.2.2",
+    "webpack-merge-and-include-globally": "^2.1.20"
   },
   "dependencies": {
     "lodash": "^4.17.15"

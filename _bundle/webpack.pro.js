@@ -3,6 +3,7 @@ const glob = require('glob');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const ExtraneousFileCleanupPlugin = require('webpack-extraneous-file-cleanup-plugin');
+const MergeIntoSingle = require('webpack-merge-and-include-globally');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 console.log('---------------------------------BUILD START--------------------------------------------');
@@ -83,6 +84,8 @@ const GlobalCssConfig = {
 /*JAVASCRIT BUILD START*/
 
 
+
+
 const entryArray = glob.sync('./src/app/pages/**/index.ts');
 const entryObject = entryArray.reduce((acc, item) => {
   let name = path.dirname(item.replace('./src/app/pages/', ''));
@@ -129,8 +132,42 @@ const PagesJsConfig = {
   }
 }
 
+PagesGLobalJsConfig = {
+  mode: 'production',
+  devtool: false,
+  entry: './assets/js/index.js',
+  output: {
+    path: path.resolve(__dirname, '../build/js'),
+    publicPath: '../build/js',
+    filename: '[name].js'
+  },
+  optimization: {
+    minimize: true,
+    minimizer: [
+      new UglifyJsPlugin({
+        cache: true,
+      })
+    ]
+  },
+  plugins: [
+    new MergeIntoSingle({
+      files: {
+        'bundle.js': [
+          path.resolve(__dirname, '../assets/js/base/*.js'),
+          path.resolve(__dirname, '../assets/js/libs/*.js')
+        ],
+      }
+    }),
+    new ExtraneousFileCleanupPlugin({
+      extensions: ['main.js']
+    })
+  ]
+
+}
+
+
 /*JAVASCRIT BUILD END*/
 
-module.exports = [PagesJsConfig, PagesScssConfig, GlobalCssConfig];
+module.exports = [PagesJsConfig, PagesScssConfig, GlobalCssConfig, PagesGLobalJsConfig];
 
 /*------------------------------BUILD END--------------------------------------------*/
