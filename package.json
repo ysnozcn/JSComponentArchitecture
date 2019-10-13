@@ -4,30 +4,38 @@
   "description": "Component-Based JavaScript Architecture",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack-dev-server --config webpack.dev.config.js --open",
-    "pro": "NODE_ENV=production & webpack-dev-server --config webpack.dev.config.js",
-    "start": "npm run dev",
-    "build": "npm run pro"
+    "start": "webpack-dev-server --config ./_bundle/webpack.dev.js --open",
+    "build": "webpack --config ./_bundle/webpack.pro.js"
   },
   "author": "Yasino",
   "license": "ISC",
   "devDependencies": {
+    "@babel/core": "^7.6.4",
+    "@babel/preset-env": "^7.6.3",
     "@types/node": "^12.7.5",
     "@types/webpack": "^4.39.1",
     "@types/webpack-dev-server": "^3.1.7",
     "app-root-path": "^2.2.1",
+    "babel-loader": "^8.0.6",
     "css-loader": "^3.2.0",
     "eslint": "^6.4.0",
+    "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "file-loader": "^4.2.0",
+    "mini-css-extract-plugin": "^0.8.0",
+    "node-sass": "^4.12.0",
+    "on-build-webpack": "^0.1.0",
     "sass-loader": "^8.0.0",
     "style-loader": "^1.0.0",
     "ts-loader": "^6.1.0",
     "ts-node": "^8.3.0",
     "tslint": "^5.20.0",
     "typescript": "^3.6.3",
+    "uglifyjs-webpack-plugin": "^2.2.0",
     "webpack": "^4.40.2",
     "webpack-cli": "^3.3.8",
-    "webpack-dev-server": "^3.8.0"
+    "webpack-dev-server": "^3.8.0",
+    "webpack-extraneous-file-cleanup-plugin": "^2.0.0",
+    "webpack-merge": "^4.2.2"
   },
   "dependencies": {
     "lodash": "^4.17.15"
