@@ -3,9 +3,11 @@ const glob = require('glob');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const ExtraneousFileCleanupPlugin = require('webpack-extraneous-file-cleanup-plugin');
+const MergeIntoSingle = require('webpack-merge-and-include-globally');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
+console.log('---------------------------------BUILD START--------------------------------------------');
 
-console.log('--------------------------------------------------------------------------------------');
 
 const entryScssArray = glob.sync('./src/app/pages/**/style.scss');
 
@@ -20,7 +22,8 @@ const PagesScssConfig = {
   devtool: 'inline-source-map',
   entry: entryScssObject,
   output: {
-    path: path.resolve(__dirname, '../build/css'),
+    path: path.resolve(__dirname, '../build/css/pages'),
+    publicPath: '/build/css/pages/',
   },
   module: {
     rules: [
@@ -44,6 +47,42 @@ const PagesScssConfig = {
   ]
 }
 
+const entryGlobalCssArray = glob.sync('./assets/css/libs/*.css');
+
+const GlobalCssConfig = {
+  mode: 'development',
+  devtool: false,
+  entry: entryGlobalCssArray,
+  output: {
+    path: path.resolve(__dirname, '../build/css'),
+    publicPath: '/build/css/',
+  },
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: 'css-loader'
+        })
+      },
+    ],
+  },
+  plugins: [
+    new ExtractTextPlugin("libs.min.css"),
+    new MiniCssExtractPlugin({
+      filename: "[name].css"
+    }),
+    new ExtraneousFileCleanupPlugin({
+      extensions: ['.js']
+    })
+  ]
+};
+
+
+/*CSS BUILD END*/
+
+/*JAVASCRIT BUILD START*/
 
 const entryArray = glob.sync('./src/app/pages/**/index.ts');
 const entryObject = entryArray.reduce((acc, item) => {
@@ -51,20 +90,24 @@ const entryObject = entryArray.reduce((acc, item) => {
   acc[name] = item;
   return acc;
 }, {});
-console.log(path.resolve(__dirname, '../build/js'));
-
 
 const PagesJsConfig = {
   mode: 'development',
   devtool: 'inline-source-map',
   entry: entryObject,
   output: {
-    path: path.resolve(__dirname, 'build/js'),
-    publicPath: '/build/js/',
-    filename: '[name].js'
+    path: path.resolve(__dirname, '../build/js/pages'),
+    publicPath: '/build/js/pages/',
+    filename: '[name].js',
+    sourceMapFilename: '[file].map'
   },
   optimization: {
-    minimize: false
+    minimize: false,
+    minimizer: [
+      new UglifyJsPlugin({
+        cache: false,
+      })
+    ]
   },
   module: {
     rules: [
@@ -86,11 +129,50 @@ const PagesJsConfig = {
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
   },
-   devServer: {
-        contentBase: path.join(__dirname, '../'),
-        compress: true,
-        port: 9000
-    }
+  devServer: {
+    contentBase: path.join(__dirname, '../'),
+    compress: true,
+    port: 9000
+  }
 }
 
-module.exports = [PagesJsConfig, PagesScssConfig];
+PagesGLobalJsConfig = {
+  mode: 'development',
+  devtool: 'inline-source-map',
+  entry: './assets/js/index.js',
+  output: {
+    path: path.resolve(__dirname, '../build/js'),
+    publicPath: '/build/js/',
+    filename: '[name].js',
+    sourceMapFilename: '[file].map'
+  },
+  optimization: {
+    minimize: false,
+    minimizer: [
+      new UglifyJsPlugin({
+        cache: false,
+      })
+    ]
+  },
+  plugins: [
+    new MergeIntoSingle({
+      files: {
+        'bundle.js': [
+          path.resolve(__dirname, '../assets/js/base/*.js'),
+          path.resolve(__dirname, '../assets/js/libs/*.js')
+        ],
+      }
+    }),
+    new ExtraneousFileCleanupPlugin({
+      extensions: ['main.js']
+    })
+  ],
+
+}
+
+
+/*JAVASCRIT BUILD END*/
+
+module.exports = [PagesJsConfig, PagesScssConfig, GlobalCssConfig, PagesGLobalJsConfig];
+
+/*------------------------------BUILD END--------------------------------------------*/
