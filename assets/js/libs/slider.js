@@ -1,5 +1,5 @@
 window.jQuery = $;
 window.$ = $;
 
-
-$('body').addClass('test');
+ 
+$('body').addClass('deneme');
