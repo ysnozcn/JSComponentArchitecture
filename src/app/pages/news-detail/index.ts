@@ -1,10 +1,9 @@
 import { Page } from "../base/page";
 import { Button_1 } from "../../components/buttons/buttons";
-import "./styles/test.scss";
 
 export class NewsDetailPage extends Page {
 
-    private StringUpperCase(text:string){
+    public StringUpperCase(text:string){
          return text.toUpperCase();
     }
 
@@ -16,7 +15,8 @@ export class NewsDetailPage extends Page {
 
     onLoad(): void {
         const test:string = "asdadsas";
-        const button = new Button_1("deneme5");
+        const button = new Button_1;
+        const button2 = button.Button2("deneme button2");
         console.log(this.StringUpperCase("testdeneme"));
     }
 

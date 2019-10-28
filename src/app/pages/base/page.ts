@@ -13,4 +13,8 @@ export abstract class Page implements IOnLoadable {
 	public onLoad() : void {}
 	public onFullLoad() : void {}
 
+	public testme(test:string){
+		console.log(test);
+	}
+
 }
