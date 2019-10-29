@@ -1,5 +1,5 @@
-import { Page } from "../base/page";
-import { Button_1 } from "../../components/buttons/buttons";
+import { Page } from 'Pages/base/page';
+import { Button_1 } from 'Components/buttons/buttons';
 
 export class NewsDetailPage extends Page {
 

@@ -47,12 +47,16 @@ const PagesScssConfig = {
   ]
 }
 
-const entryGlobalCssArray = glob.sync('./assets/css/libs/*.css');
+const entryGlobalCssArray = glob.sync('./src/app/theme/style/libs/*.@(css|scss)');
+const entryGlobalScssArrayBase = glob.sync('./src/app/theme/style/base/*.@(css|scss)');
+const entryGlobalScssArrayLayout = glob.sync('./src/app/theme/style/*.@(css|scss)');
+
+console.log(entryGlobalCssArray.concat(entryGlobalScssArrayBase).concat(entryGlobalScssArrayLayout));
 
 const GlobalCssConfig = {
   mode: 'development',
   devtool: false,
-  entry: entryGlobalCssArray,
+  entry: entryGlobalCssArray.concat(entryGlobalScssArrayBase).concat(entryGlobalScssArrayLayout),
   output: {
     path: path.resolve(__dirname, '../build/css'),
     publicPath: '/build/css/',
@@ -60,25 +64,21 @@ const GlobalCssConfig = {
   module: {
     rules: [
       {
-        test: /\.css$/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: 'css-loader'
-        })
+        test: /\.s?css$/,
+        use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
       },
     ],
   },
   plugins: [
-    new ExtractTextPlugin("libs.min.css"),
     new MiniCssExtractPlugin({
-      filename: "[name].css"
+      filename: "vendor.css",
+      ignoreOrder: false
     }),
     new ExtraneousFileCleanupPlugin({
       extensions: ['.js']
     })
   ]
 };
-
 
 /*CSS BUILD END*/
 
@@ -128,18 +128,18 @@ const PagesJsConfig = {
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
-  },
-  devServer: {
-    contentBase: path.join(__dirname, '../'),
-    compress: true,
-    port: 9000
+    alias: {
+      Components: path.resolve(__dirname, '../src/app/components/'),
+      Pages: path.resolve(__dirname, '../src/app/pages/')
+    }
   }
+  
 }
 
-PagesGLobalJsConfig = {
+GLobalJsConfig = {
   mode: 'development',
   devtool: 'inline-source-map',
-  entry: './assets/js/index.js',
+  entry: './src/app/theme/script/main.js',
   output: {
     path: path.resolve(__dirname, '../build/js'),
     publicPath: '/build/js/',
@@ -157,22 +157,24 @@ PagesGLobalJsConfig = {
   plugins: [
     new MergeIntoSingle({
       files: {
-        'bundle.js': [
-          path.resolve(__dirname, '../assets/js/base/*.js'),
-          path.resolve(__dirname, '../assets/js/libs/*.js')
+        'vendor.js': [
+          path.resolve(__dirname, '../src/app/theme/script/base/*.js'),
+          path.resolve(__dirname, '../src/app/theme/script/libs/*.js'),
+          path.resolve(__dirname, '../src/app/theme/script/*.js')
         ],
       }
-    }),
-    new ExtraneousFileCleanupPlugin({
-      extensions: ['main.js']
     })
   ],
-
+  devServer: {
+    contentBase: path.join(__dirname, '../'),
+    compress: true,
+    port: 9000
+  }
 }
 
 
 /*JAVASCRIT BUILD END*/
 
-module.exports = [PagesJsConfig, PagesScssConfig, GlobalCssConfig, PagesGLobalJsConfig];
+module.exports = [PagesJsConfig, PagesScssConfig, GlobalCssConfig, GLobalJsConfig];
 
 /*------------------------------BUILD END--------------------------------------------*/

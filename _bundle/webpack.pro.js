@@ -47,30 +47,29 @@ const PagesScssConfig = {
 }
 
 
-const entryGlobalCssArray = glob.sync('./assets/css/libs/*.css');
+const entryGlobalCssArray = glob.sync('./src/app/theme/style/libs/*.@(css|scss)');
+const entryGlobalScssArrayBase = glob.sync('./src/app/theme/style/base/*.@(css|scss)');
+const entryGlobalScssArrayLayout = glob.sync('./src/app/theme/style/*.@(css|scss)');
 
 const GlobalCssConfig = {
   mode: 'production',
   devtool: false,
-  entry: entryGlobalCssArray,
+  entry: entryGlobalCssArray.concat(entryGlobalScssArrayBase).concat(entryGlobalScssArrayLayout),
   output: {
     path: path.resolve(__dirname, '../build/css'),
   },
   module: {
     rules: [
       {
-        test: /\.css$/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: 'css-loader'
-        })
+        test: /\.s?css$/,
+        use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
       },
     ],
   },
   plugins: [
-    new ExtractTextPlugin("libs.min.css"),
     new MiniCssExtractPlugin({
-      filename: "[name].css"
+      filename: "vendor.css",
+      ignoreOrder: false
     }),
     new ExtraneousFileCleanupPlugin({
       extensions: ['.js']
@@ -78,13 +77,9 @@ const GlobalCssConfig = {
   ]
 };
 
-
 /*CSS BUILD END*/
 
 /*JAVASCRIT BUILD START*/
-
-
-
 
 const entryArray = glob.sync('./src/app/pages/**/index.ts');
 const entryObject = entryArray.reduce((acc, item) => {
@@ -129,13 +124,17 @@ const PagesJsConfig = {
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
+    alias: {
+      Components: path.resolve(__dirname, '../src/app/components/'),
+      Pages: path.resolve(__dirname, '../src/app/pages/')
+    }
   }
 }
 
-PagesGLobalJsConfig = {
+GLobalJsConfig = {
   mode: 'production',
   devtool: false,
-  entry: './assets/js/index.js',
+  entry: './src/app/theme/script/main.js',
   output: {
     path: path.resolve(__dirname, '../build/js'),
     publicPath: '../build/js',
@@ -152,9 +151,10 @@ PagesGLobalJsConfig = {
   plugins: [
     new MergeIntoSingle({
       files: {
-        'bundle.js': [
-          path.resolve(__dirname, '../assets/js/base/*.js'),
-          path.resolve(__dirname, '../assets/js/libs/*.js')
+        'vendor.js': [
+          path.resolve(__dirname, '../src/app/theme/script/base/*.js'),
+          path.resolve(__dirname, '../src/app/theme/script/libs/*.js'),
+          path.resolve(__dirname, '../src/app/theme/script/*.js')
         ],
       }
     }),
@@ -168,6 +168,6 @@ PagesGLobalJsConfig = {
 
 /*JAVASCRIT BUILD END*/
 
-module.exports = [PagesJsConfig, PagesScssConfig, GlobalCssConfig, PagesGLobalJsConfig];
+module.exports = [PagesJsConfig, PagesScssConfig, GlobalCssConfig, GLobalJsConfig];
 
 /*------------------------------BUILD END--------------------------------------------*/
