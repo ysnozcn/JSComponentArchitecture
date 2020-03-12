@@ -1,6 +1,5 @@
 import { Page } from 'Pages/base/page';
-import { Button_1 } from 'Components/buttons/buttons';
-
+import { Button_1 } from 'Components/buttons/';
 export class NewsDetailPage extends Page {
 
     public StringUpperCase(text:string){
@@ -24,5 +23,3 @@ export class NewsDetailPage extends Page {
         console.log('test');
 	}   
 }
-
-new NewsDetailPage;

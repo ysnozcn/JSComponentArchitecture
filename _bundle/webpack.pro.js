@@ -115,6 +115,7 @@ const PagesJsConfig = {
       {
         test: /\.s[ac]ss$/i,
         use: [
+          MiniCssExtractPlugin.loader,
           'style-loader',
           'css-loader',
           'sass-loader',
@@ -125,8 +126,8 @@ const PagesJsConfig = {
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
     alias: {
+      Pages: path.resolve(__dirname, '../src/app/pages/'),
       Components: path.resolve(__dirname, '../src/app/components/'),
-      Pages: path.resolve(__dirname, '../src/app/pages/')
     }
   }
 }
