@@ -4,7 +4,9 @@
   "description": "Component-Based JavaScript Architecture",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --config ./_bundle/webpack.dev.js --open",
+    // "start": "webpack-dev-server --config ./_bundle/webpack.dev.js --open",
+    // TODO development confige ayarlanacak
+    "start": "webpack-dev-server --config ./_bundle/webpack.pro.js --open",
     "build": "webpack --config ./_bundle/webpack.pro.js"
   },
   "author": "Yasino",
