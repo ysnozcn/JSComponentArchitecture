@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --config ./_bundle/webpack.dev.js --open",
-    "build": "webpack --config ./_bundle/webpack.pro.js"
+    "build": "webpack --config ./_bundle/webpack.pro.js",
+    "serve": "webpack-dev-server --watch-content-base --config ./_bundle/webpack.pro.js --open"
   },
   "author": "Yasino",
   "license": "ISC",
