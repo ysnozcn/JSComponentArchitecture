@@ -90,7 +90,7 @@ const PagesConfig = {
   output: {
     path: path.resolve(__dirname, "../build/pages"),
     publicPath: "../build/pages",
-    filename: "[name]/[name].js"
+    filename: "js/[name].js"
   },
   optimization: {
     minimize: true,
@@ -116,7 +116,7 @@ const PagesConfig = {
       }
     ]
   },
-  plugins: [new ExtractTextPlugin({ filename: "[name]/[name].css" })],
+  plugins: [new ExtractTextPlugin({ filename: "css/[name].css" })],
   resolve: {
     extensions: [".tsx", ".ts", ".js"],
     alias: {

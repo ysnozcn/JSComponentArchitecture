@@ -4,7 +4,7 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const ExtraneousFileCleanupPlugin = require('webpack-extraneous-file-cleanup-plugin');
 const MergeIntoSingle = require('webpack-merge-and-include-globally');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+
 
 console.log('---------------------------------BUILD START--------------------------------------------');
 
