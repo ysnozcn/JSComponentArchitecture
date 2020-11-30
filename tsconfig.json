@@ -1,0 +1,32 @@
+{
+	"compilerOptions": {
+		"noImplicitAny": false,
+		"preserveConstEnums": true,
+		"noEmitHelpers": true,
+		"importHelpers": true,
+		"experimentalDecorators": true,
+		"emitDecoratorMetadata": true,
+    "sourceMap": true,
+    "module": "es6",
+		"target": "es5",
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node",
+    "lib": [
+      "dom",
+      "es2015"
+    ],
+    "baseUrl": "./",
+    "paths": {
+        "@Pages/*": ["./src/app/pagess/*"],
+        "@Components/*": ["./src/app/components/*"],
+        "@Utils/*": ["./src/app/utils/*"],
+        "@Services/*": ["./src/app/services/*"]
+    }
+	},
+	"include": [
+		"src/**/*.ts"
+	],
+	"exclude": [
+		"node_modules"
+	]
+}
