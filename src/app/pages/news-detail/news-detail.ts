@@ -1,7 +1,9 @@
-import { Page } from 'Pages/base/page';
-import { Button_1 } from 'Components/buttons/';
+import { Page } from '@Pages/base/page';
+import { Button_1 } from '@Components/buttons/';
 
-console.log(Button_1);
+var Configurator = require('Configurator');
+
+console.log(Configurator);
 export class NewsDetailPage extends Page {
 
     public StringUpperCase(text:string){
@@ -23,5 +25,5 @@ export class NewsDetailPage extends Page {
 
     onFullLoad(): void {
         console.log('test');
-	}   
+	}
 }

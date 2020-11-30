@@ -120,9 +120,14 @@ const PagesConfig = {
   resolve: {
     extensions: [".tsx", ".ts", ".js"],
     alias: {
-      Pages: path.resolve(__dirname, "../src/app/pages/"),
-      Components: path.resolve(__dirname, "../src/app/components/")
+      "@Pages": path.resolve(__dirname, "../src/app/pages"),
+      "@Components": path.resolve(__dirname, "../src/app/components"),
+      "@Utils": path.resolve(__dirname, "../src/app/utils"),
+      "@Services": path.resolve(__dirname, "../src/app/services"),
     }
+  },
+  externals: {
+    'Configurator': JSON.stringify(require('./../_config/prod.json'))
   }
 };
 /*PAGES JS AND CSS BUILD END*/
@@ -130,8 +135,8 @@ const PagesConfig = {
 
 module.exports = [
   PagesConfig,
-  GlobalCssConfig,
-  GLobalJsConfig
+  // GlobalCssConfig,
+  // GLobalJsConfig
 ];
 
 /*------------------------------BUILD END--------------------------------------------*/
